@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Three.js + React</title>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+      }
+      #app {
+        display: flex;
+        height: 100%;
+      }
+      #three-container {
+        flex: 1; /* left side takes half or more */
+      }
+      #react-root {
+        flex: 1; /* right side takes the other half */
+        background: #f5f5f5;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="three-container"></div>
+      <div id="react-root"></div>
+    </div>
+    <script type="module" src="/main.jsx"></script>
+  </body>
+</html>
