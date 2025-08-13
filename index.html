@@ -3,14 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <title>Three.js + React</title>
+    <meta
+      name="viewport"
+      content="width=device-width/2, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
     <style>
       body {
         margin: 0;
-        height: 100vh;
+        background-color: #f0f0f0;
+        color: #444;
       }
       #app {
         display: flex;
         height: 100%;
+        flex-direction: row;
       }
       #three-container {
         flex: 1; /* left side takes half or more */
@@ -27,6 +33,7 @@
       <div id="three-container"></div>
       <div id="react-root"></div>
     </div>
+    <script type="module" src="/main.js"></script>
     <script type="module" src="/main.jsx"></script>
   </body>
 </html>

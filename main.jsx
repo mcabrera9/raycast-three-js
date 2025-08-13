@@ -3,7 +3,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 
 function App() {
-  return <div>React</div>;
+  return <div>This is the React side</div>;
 }
 
 const reactRoot = document.getElementById("react-root");
