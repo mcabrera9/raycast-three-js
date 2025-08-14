@@ -34,19 +34,20 @@ function main() {
   light.position.set(-1, 2, 4);
   camera.add(light);
 
-  // Create cubes
+  // Create cubes individually
 
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+
   const cube1 = new THREE.Mesh(
-    geometry,
+    cubeGeometry,
     new THREE.MeshPhongMaterial({ color: getRandomColor() })
   );
   const cube2 = new THREE.Mesh(
-    geometry,
+    cubeGeometry,
     new THREE.MeshPhongMaterial({ color: 0x44aa99 })
   );
   const cube3 = new THREE.Mesh(
-    geometry,
+    cubeGeometry,
     new THREE.MeshPhongMaterial({ color: 0x44aa55 })
   );
 
@@ -66,19 +67,24 @@ function main() {
 
   scene.add(cube1, cube2, cube3);
 
-  const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+  // Create cube function
 
   function createMesh(geometry, material, uuid) {
     // Create a new mesh with the given geometry and a cloned material
+
     const mesh = new THREE.Mesh(geometry, material.clone());
 
     // Set a random position
+
     const { x, y, z } = getRandomPosition(3);
     mesh.position.set(x, y, z);
 
     mesh.name = uuid;
     return mesh;
   }
+
+  // Create group of cubes using custom cube function
+
   const cubes = new THREE.Group();
   const material1 = new THREE.MeshPhongMaterial({ color: getRandomColor() });
   cubes.add(createMesh(cubeGeometry, material1, x1, y1, z1, "cube A"));
@@ -86,6 +92,7 @@ function main() {
   cubes.add(createMesh(cubeGeometry, material2, x1, y1, z1, "cube B"));
   scene.add(cubes);
 
+  // Animate function
   function animate(time) {
     time *= 0.001;
 
@@ -97,7 +104,7 @@ function main() {
     cube3.rotation.x += 0.015;
     cube3.rotation.y += 0.015;
 
-    // Rotates camera pole
+    // Rotates camera pole. Not strictly necessary but I thought this made it more interesting.
     cameraPole.rotation.y = time * 0.1;
 
     if (resizeRendererToDisplaySize(renderer)) {
@@ -124,6 +131,7 @@ function main() {
 
   const raycaster = new THREE.Raycaster();
 
+  // Add event listener
   document.addEventListener("mousedown", onMouseDown);
 
   function onMouseDown(event) {
@@ -133,15 +141,20 @@ function main() {
     );
     raycaster.setFromCamera(coords, camera);
 
+    // Count intersections between objects and the raycaster
     const intersections = raycaster.intersectObjects(scene.children, true);
+
     if (intersections.length > 0) {
-      const foundObj = intersections[0].object;
+      const foundObj = intersections[0].object; // The intersecting object
       const colorHex = intersections[0].object.material.color.getHex();
       const color = `#${colorHex.toString(16).padStart(6, "0")}`;
       const uuid = intersections[0].object.uuid;
-      console.log(`Hex color: #${colorHex.toString(16).padStart(6, "0")}`);
+
+      // Log color and uuid attributes
+      console.log("The color is: ", color);
       console.log("the uuid of the clicked cube is:", uuid);
-      // Sending the data to the React layer
+
+      // Sends data to the React layer
       window.postMessage({ type: "cubeColor", color }, "*");
       window.postMessage({ type: "uuid", uuid }, "*");
 
