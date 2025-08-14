@@ -1,26 +1,26 @@
 # ReadME
-
+[Netlify](https://raycast-cubes-mcabrera.netlify.app/)
 take home project 8-14-25
 
 ## Requirements
 
-1. Learn about Raycasting https://threejs.org/docs/#api/en/core/Raycaster
+1. Learn about Raycasting https://threejs.org/docs/#api/en/core/Raycaster [x]
 
-2. Create a small react project using three.js ( not react three fiber )
+2. Create a small react project using three.js ( not react three fiber ) [x]
 
-3. Left side, canvas. Right side, react panel
+3. Left side, canvas. Right side, react panel [x]
 
-4. In the canvas, 2 to 5 small 3d cubes, randomly placed. Space them out some.
+4. In the canvas, 2 to 5 small 3d cubes, randomly placed. Space them out some. [x]
 
-5. React panel with space to put information into.
+5. React panel with space to put information into. [x]
 
-6. With the raycaster, clicking on each cube should give you mesh data and each mesh should have a UUID or some other three.js identification that you can then place into the react panel, statefully.
+6. With the raycaster, clicking on each cube should give you mesh data and each mesh should have a UUID or some other three.js identification that you can then place into the react panel, statefully.[x]
 
-7. Bonus, recolor the cubes on click.
+7. Bonus, recolor the cubes on click. [ ]
 
-8. Bonus++ let me select a color to change a cube to.
+8. Bonus++ let me select a color to change a cube to. [ ]
 
-9. Bonus+++ Button(s) to reposition the cubes or another way to reposition the selected cube
+9. Bonus+++ Button(s) to reposition the cubes or another way to reposition the selected cube [ ]
 
 ## Resources
 
