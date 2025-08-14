@@ -1,15 +1,16 @@
 import * as THREE from "three";
 
-function getRandomPosition(range = 10) {
-  return {
-    x: (Math.random() - 0.5) * 2 * range,
-    y: (Math.random() - 0.5) * 2 * range,
-    z: (Math.random() - 0.5) * 2 * range,
-  };
+function getRandomColor() {
+  var letters = "0123456789ABCDEF";
+  var color = "#";
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  console.log(color);
+  return color;
 }
-
 function main() {
-  const canvas = document.querySelector("#c");
+  const canvas = document.querySelector("#canvas");
   const renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
 
   const camera = new THREE.PerspectiveCamera(
@@ -19,6 +20,8 @@ function main() {
     1000
   );
   camera.position.z = 5;
+
+  renderer.setSize(window.innerWidth / 2, window.innerHeight);
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color("white");
@@ -32,10 +35,11 @@ function main() {
   camera.add(light);
 
   // Create cubes
+
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const cube1 = new THREE.Mesh(
     geometry,
-    new THREE.MeshPhongMaterial({ color: 0x44aa88 })
+    new THREE.MeshPhongMaterial({ color: getRandomColor() })
   );
   const cube2 = new THREE.Mesh(
     geometry,
@@ -46,36 +50,41 @@ function main() {
     new THREE.MeshPhongMaterial({ color: 0x44aa55 })
   );
 
-  cube1.position.x = -1.5;
-  cube2.position.x = 0;
-  cube3.position.x = 1.5;
+  function getRandomPosition(range = 10) {
+    return {
+      x: (Math.random() - 0.5) * 2 * range,
+      y: (Math.random() - 0.5) * 2 * range,
+      z: (Math.random() - 0.5) * 2 * range,
+    };
+  }
+  const { x: x1, y: y1, z: z1 } = getRandomPosition(3);
+  cube1.position.set(x1, y1, z1);
+  const { x: x2, y: y2, z: z2 } = getRandomPosition(3);
+  cube2.position.set(x2, y2, z2);
+  const { x: x3, y: y3, z: z3 } = getRandomPosition(3);
+  cube3.position.set(x3, y3, z3);
 
   scene.add(cube1, cube2, cube3);
 
-  const pickableObjects = [cube1, cube2, cube3];
+  const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
 
-  renderer.setSize(window.innerWidth / 2, window.innerHeight);
+  function createMesh(geometry, material, uuid) {
+    // Create a new mesh with the given geometry and a cloned material
+    const mesh = new THREE.Mesh(geometry, material.clone());
 
-  const raycaster = new THREE.Raycaster();
-  const mouse = new THREE.Vector2();
+    // Set a random position
+    const { x, y, z } = getRandomPosition(3);
+    mesh.position.set(x, y, z);
 
-  // Handle clicks on cubes
-  canvas.addEventListener("click", (event) => {
-    const rect = canvas.getBoundingClientRect();
-    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(pickableObjects);
-    if (intersects.length > 0) {
-      const colorHex = intersects[0].object.material.color.getHexString();
-      console.log("Clicked cube color:", `#${colorHex}`);
-      // Optional: dispatch event to React if needed
-      window.dispatchEvent(
-        new CustomEvent("cubeClick", { detail: `#${colorHex}` })
-      );
-    }
-  });
+    mesh.name = uuid;
+    return mesh;
+  }
+  const cubes = new THREE.Group();
+  const material1 = new THREE.MeshPhongMaterial({ color: getRandomColor() });
+  cubes.add(createMesh(cubeGeometry, material1, x1, y1, z1, "cube A"));
+  const material2 = new THREE.MeshPhongMaterial({ color: getRandomColor() });
+  cubes.add(createMesh(cubeGeometry, material2, x1, y1, z1, "cube B"));
+  scene.add(cubes);
 
   function animate(time) {
     time *= 0.001;
@@ -109,6 +118,40 @@ function main() {
     const needResize = canvas.width !== width || canvas.height !== height;
     if (needResize) renderer.setSize(width, height, false);
     return needResize;
+  }
+
+  // ===================== END SCENE SETUP ====================
+
+  const raycaster = new THREE.Raycaster();
+
+  document.addEventListener("mousedown", onMouseDown);
+
+  function onMouseDown(event) {
+    const coords = new THREE.Vector2(
+      (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
+      -((event.clientY / renderer.domElement.clientHeight) * 2 - 1)
+    );
+    raycaster.setFromCamera(coords, camera);
+
+    const intersections = raycaster.intersectObjects(scene.children, true);
+    if (intersections.length > 0) {
+      const foundObj = intersections[0].object;
+      const colorHex = intersections[0].object.material.color.getHex();
+      const color = `#${colorHex.toString(16).padStart(6, "0")}`;
+      const uuid = intersections[0].object.uuid;
+      console.log(`Hex color: #${colorHex.toString(16).padStart(6, "0")}`);
+      console.log("the uuid of the clicked cube is:", uuid);
+      // Sending the data to the React layer
+      window.postMessage({ type: "cubeColor", color }, "*");
+      window.postMessage({ type: "uuid", uuid }, "*");
+
+      // Testing to see the attributes of the cubes
+
+      // if (intersections[0].object.name) {
+      //   const uuid = intersections[0].object.uuid;
+      //   console.log("uuid", uuid);
+      // }
+    }
   }
 }
 

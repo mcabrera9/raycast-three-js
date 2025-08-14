@@ -4,13 +4,35 @@ import { createRoot } from "react-dom/client";
 
 function App() {
   const [color, setColor] = useState(null);
+  const [uuid, setUuid] = useState(null);
 
-  // useEffect() retrieve the color
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data.type === "cubeColor") {
+        setColor(event.data.color);
+      }
+      if (event.data.type === "uuid") {
+        setUuid(event.data.uuid);
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
   return (
     <div>
-      This is the React side
-      <h1>Selected cube Color</h1>
-      <div>Cube color goes here</div>
+      <h1>React Layer</h1>
+      {color ? (
+        <div>
+          <p style={{ color }}>Color: {color}</p>
+          <p style={{ color }}>UUID: {uuid}</p>
+        </div>
+      ) : (
+        <p>Click on a cube to reveal its color and uuid.</p>
+      )}
     </div>
   );
 }

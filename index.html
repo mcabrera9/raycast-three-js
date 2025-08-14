@@ -5,7 +5,7 @@
     <title>Three.js + React</title>
     <meta
       name="viewport"
-      content="width=device-width/2, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
     <style>
       body {
@@ -18,19 +18,21 @@
         height: 100%;
         flex-direction: row;
       }
-      #c {
+      #canvas {
         flex: 1;
       }
       #react-root {
         flex: 1;
-        background: #f5f5f5;
+        padding-left: 5%;
+        background: #000000;
+        color: white;
         overflow: auto;
       }
     </style>
   </head>
   <body>
     <div id="app">
-      <canvas id="c"></canvas>
+      <canvas id="canvas"></canvas>
       <div id="react-root"></div>
     </div>
     <script type="module" src="/main.js"></script>
