@@ -27,5 +27,4 @@ take home project 8-14-25
 
 1. [Medium article](https://ryanschiang.com/threejs-clickable-vertices-tutorial) Describes how to set up a scene with mesh.
 2. [Raycasting tutorial, Youtube](https://www.youtube.com/watch?v=QATefHrO4kg) Explains how to use Raycasting.
-3. [Raycasting debugging, Stackoverflow](https://stackoverflow.com/questions/54829003/using-raycaster-to-change-the-colour-of-a-boxs-face-when-clicked)
-   This is the next thing I would implement, and would meet requirement #7
+3. [Raycasting debugging, Stackoverflow](https://stackoverflow.com/questions/54829003/using-raycaster-to-change-the-colour-of-a-boxs-face-when-clicked) Changing color of boxes

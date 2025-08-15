@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { Stack, Button } from "@mui/material";
 
 function App() {
   // Set up hooks
@@ -8,6 +9,7 @@ function App() {
   const [uuid, setUuid] = useState(null);
   const [changeColor, setChangeColor] = useState("#ff0000");
   const [direction, setDirection] = useState(true);
+  const [selected, setSelected] = useState(false);
 
   // LISTENER
   useEffect(() => {
@@ -42,41 +44,76 @@ function App() {
   };
 
   return (
-    <div style={{ gap: 5 }}>
+    <Stack>
       <h1>React Layer</h1>
+      <Stack style={{ gap: 0 }}>
+        <h3>Selecting cubes</h3>
+        {color ? (
+          <div>
+            <p style={{ color }}>Color: {color}</p>
+            <p style={{ color }}>UUID: {uuid}</p>
+          </div>
+        ) : (
+          <p>
+            Select a cube to reveal its color and uuid. It will also change to a
+            random color, and enable color and direction change functionality.
+          </p>
+        )}
+      </Stack>
+
       {color ? (
-        <div>
-          <p style={{ color }}>Color: {color}</p>
-          <p style={{ color }}>UUID: {uuid}</p>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Stack style={{ gap: 10 }}>
+            <h3>Setting cube color</h3>
+            <input
+              type="color"
+              value={changeColor}
+              onChange={(e) => setChangeColor(e.target.value)}
+            />
+            <div>Click below to apply the input color to the selected cube</div>
+            <div>
+              <Button variant="contained" onClick={handleChangeCubeColor}>
+                Change color
+              </Button>
+            </div>
+          </Stack>
+
+          <Stack style={{ gap: 10 }}>
+            <h3>Moving cubes</h3>
+            Click one of the buttons below to move the selected cube.
+            <div>
+              <Stack>
+                <div>Toggle checkbox to change direction of cube movement</div>
+                <div>
+                  <input
+                    type="checkbox"
+                    checked={direction}
+                    onChange={(e) => setDirection(!direction)}
+                  />
+                </div>
+              </Stack>
+            </div>
+            <div>
+              <Button variant="contained" onClick={handleChangeCubePositionX}>
+                Change X
+              </Button>
+            </div>
+            <div>
+              <Button variant="contained" onClick={handleChangeCubePositionY}>
+                Change Y
+              </Button>
+            </div>
+            <div>
+              <Button variant="contained" onClick={handleChangeCubePositionZ}>
+                Change Z
+              </Button>
+            </div>
+          </Stack>
         </div>
       ) : (
-        <p>Select a cube to reveal its color and uuid.</p>
+        "Select a cube to get started!"
       )}
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <input
-          type="color"
-          value={changeColor}
-          onChange={(e) => setChangeColor(e.target.value)}
-        />
-        <div>
-          <div>Click below to apply the input color to the selected cube</div>
-          <button onClick={handleChangeCubeColor}>Change color</button>
-        </div>
-        <div>
-          Toggle checkbox to change direction of cube movement
-          <input
-            type="checkbox"
-            checked={direction}
-            onChange={(e) => setDirection(!direction)}
-          />
-          <div>
-            <button onClick={handleChangeCubePositionX}>Change X</button>
-            <button onClick={handleChangeCubePositionY}>Change Y</button>
-            <button onClick={handleChangeCubePositionZ}>Change Z</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    </Stack>
   );
 }
 
