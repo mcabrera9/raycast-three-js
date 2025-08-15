@@ -1,4 +1,5 @@
 # ReadME
+
 [Netlify](https://raycast-cubes-mcabrera.netlify.app/)
 take home project 8-14-25
 
@@ -16,15 +17,15 @@ take home project 8-14-25
 
 6. With the raycaster, clicking on each cube should give you mesh data and each mesh should have a UUID or some other three.js identification that you can then place into the react panel, statefully.[x]
 
-7. Bonus, recolor the cubes on click. [ ]
+7. Bonus, recolor the cubes on click. [x]
 
-8. Bonus++ let me select a color to change a cube to. [ ]
+8. Bonus++ let me select a color to change a cube to. [x]
 
-9. Bonus+++ Button(s) to reposition the cubes or another way to reposition the selected cube [ ]
+9. Bonus+++ Button(s) to reposition the cubes or another way to reposition the selected cube [x]
 
 ## Resources
 
 1. [Medium article](https://ryanschiang.com/threejs-clickable-vertices-tutorial) Describes how to set up a scene with mesh.
 2. [Raycasting tutorial, Youtube](https://www.youtube.com/watch?v=QATefHrO4kg) Explains how to use Raycasting.
 3. [Raycasting debugging, Stackoverflow](https://stackoverflow.com/questions/54829003/using-raycaster-to-change-the-colour-of-a-boxs-face-when-clicked)
-This is the next thing I would implement, and would meet requirement #7
+   This is the next thing I would implement, and would meet requirement #7

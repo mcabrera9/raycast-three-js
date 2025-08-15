@@ -134,6 +134,54 @@ function main() {
   // Add event listener
   document.addEventListener("mousedown", onMouseDown);
 
+  // Changes cube color
+  window.addEventListener("message", (event) => {
+    if (event.data.type === "changeCubeColor") {
+      const { uuid, changeColor } = event.data;
+      const object = scene.getObjectByProperty("uuid", uuid);
+      if (object && object.material) {
+        object.material.color.set(changeColor);
+        console.log("object data", object);
+      }
+    }
+  });
+
+  // Change cube position on X axis
+  window.addEventListener("message", (event) => {
+    if (event.data.type === "changeCubePositionX") {
+      const { uuid, direction } = event.data;
+      const object = scene.getObjectByProperty("uuid", uuid);
+      if (object && object.position) {
+        const delta = direction ? 1 : -1;
+        object.position.x += delta;
+      }
+    }
+  });
+
+  // Change cube position on Y axis
+  window.addEventListener("message", (event) => {
+    if (event.data.type === "changeCubePositionY") {
+      const { uuid, direction } = event.data;
+      const object = scene.getObjectByProperty("uuid", uuid);
+      if (object && object.position) {
+        const delta = direction ? 1 : -1;
+        object.position.y += delta;
+      }
+    }
+  });
+
+  // Change cube position on Z axis
+  window.addEventListener("message", (event) => {
+    if (event.data.type === "changeCubePositionZ") {
+      const { uuid, direction } = event.data;
+      const object = scene.getObjectByProperty("uuid", uuid);
+      if (object && object.position) {
+        const delta = direction ? 1 : -1;
+        object.position.z += delta;
+      }
+    }
+  });
+
   function onMouseDown(event) {
     const coords = new THREE.Vector2(
       (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
@@ -149,11 +197,13 @@ function main() {
       const colorHex = intersections[0].object.material.color.getHex();
       const color = `#${colorHex.toString(16).padStart(6, "0")}`;
       const uuid = intersections[0].object.uuid;
-
       // Log color and uuid attributes
-      console.log("The color is: ", color);
-      console.log("the uuid of the clicked cube is:", uuid);
+      // console.log("The color is: ", color);
+      // console.log("the uuid of the clicked cube is:", uuid);
+      // console.log("change event triggered", intersections[0]);
 
+      // changes color randomly
+      foundObj.material.color.set(0xffffff * Math.random());
       // Sends data to the React layer
       window.postMessage({ type: "cubeColor", color }, "*");
       window.postMessage({ type: "uuid", uuid }, "*");
