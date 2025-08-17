@@ -47,7 +47,6 @@ function App() {
     <Stack>
       <h1>React Layer</h1>
       <Stack style={{ gap: 0 }}>
-        <h3>Selecting cubes</h3>
         {color ? (
           <div>
             <p style={{ color }}>Color: {color}</p>
@@ -55,8 +54,9 @@ function App() {
           </div>
         ) : (
           <p>
-            Select a cube to reveal its color and uuid. It will also change to a
-            random color, and enable color and direction change functionality.
+            Click to select a cube to reveal its color and uuid. It will also
+            change to a random color, and enable color and direction change
+            functionality.
           </p>
         )}
       </Stack>
